@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<ui version="4.0">
+ <class>SecondaryWindow</class>
+ <widget class="QMainWindow" name="SecondaryWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignCenter">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Camera Feed</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
