@@ -2,7 +2,9 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QCamera>
+#include <QComboBox>
 #include <QCameraInfo>
+Q_DECLARE_METATYPE(QCameraInfo)
 SharedViewfinder* sharedViewfinder = new SharedViewfinder();
 QCamera *camera= new QCamera(QCameraInfo::defaultCamera());
 int MainWindow::tryb = 0;
@@ -12,11 +14,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->btnOpenWindow, &QPushButton::clicked, this, &MainWindow::openSecondaryWindow);
-
-    camera->setViewfinder(sharedViewfinder);
-    camera->start();
-    qDebug()<<camera->ActiveState;
+    QComboBox *comboBoxCameraFeed = new QComboBox();
+    QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
+    if (!availableCameras.isEmpty()) {
+            QCameraInfo defaultCamera = availableCameras.first();
+            camera->setViewfinder(sharedViewfinder);
+            camera->start();
+        }
+    foreach(const QCameraInfo &cameraInfo , availableCameras) {
+            comboBoxCameraFeed->addItem(cameraInfo.description(), QVariant::fromValue(cameraInfo));
+        }
     tryb = ui->tabWidget->currentIndex();
+    ui->toolBar->addWidget(comboBoxCameraFeed);
+     connect(comboBoxCameraFeed, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeCamera);
 }
 
 MainWindow::~MainWindow()
@@ -78,4 +88,13 @@ void MainWindow::on_btnOpenWindow_3_clicked()
 {
     start();
 }
-
+void MainWindow::changeCamera(int index) {
+    QComboBox *comboBox = qobject_cast<QComboBox*>(sender());
+    if (comboBox) {
+        QCameraInfo cameraInfo = comboBox->itemData(index).value<QCameraInfo>();
+        camera->stop();
+        camera = new QCamera(cameraInfo);
+        camera->setViewfinder(sharedViewfinder);
+        camera->start();
+    }
+}

@@ -24,8 +24,8 @@ private:
     Ui::SecondaryWindow *ui;
     SharedViewfinder *m_viewfinder;
     int numerek;
-    int poz_x;
-    int poz_y;
+    float poz_x;
+    float poz_y;
     int ile_x;
     int ile_y;
 

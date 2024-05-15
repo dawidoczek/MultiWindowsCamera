@@ -19,13 +19,14 @@ SecondaryWindow::SecondaryWindow(SharedViewfinder *viewfinder, QWidget *parent)
         int screenWidth = QGuiApplication::primaryScreen()->geometry().width();
         int screenHeight = QGuiApplication::primaryScreen()->geometry().height();
 
-        int randX = qrand() % (screenWidth - 320); // Subtract 640 to avoid placing the window out of bounds
-        int randY = qrand() % (screenHeight - 320); // Subtract 480 to avoid placing the window out of bounds
+        int randX = qrand() % (screenWidth - 320);
+        int randY = qrand() % (screenHeight - 320);
         move(randX,randY);
         poz_x=randX;
         poz_y=randY;
-        ile_x=5;
-        ile_y=5;
+        ile_x=qrand() % (10)+5;
+        ile_y=qrand() % (10)+5;
+        qDebug()<<ile_x<<" "<<ile_y;
 }
 
 SecondaryWindow::~SecondaryWindow()
@@ -37,34 +38,36 @@ void SecondaryWindow::frameReady(QPixmap pixmap)
 {
     // Dzieli ci na małe kawałki
     QPixmap leftCornerPixmap = pixmap.copy();
+    QSize rozmiar = pixmap.size();
+    float screenWidth = QGuiApplication::primaryScreen()->geometry().width();
+    float screenHeight = QGuiApplication::primaryScreen()->geometry().height();
     if(MainWindow::tryb==0){
-//    qDebug()<<"Klatka: "<<i<<"Rozmiar: "<<pixmap.size();
+    qDebug()<<"Klatka: "<<i<<"Rozmiar: "<<rozmiar.width()<<' '<<rozmiar.height();
     i++;
-
-    if(numerek==0){
-        leftCornerPixmap = pixmap.copy(0,0,640,720);
-    }else{
-        leftCornerPixmap = pixmap.copy(640,0,1280,720);
-    }
-    leftCornerPixmap = pixmap.copy(numerek*(1280/instanceCount),0,1280/instanceCount,720);
+    leftCornerPixmap = pixmap.copy(numerek*(rozmiar.width()/instanceCount),0,rozmiar.width()/instanceCount,rozmiar.height());
 //    qDebug()<<"Kordy x1: "<<numerek*(1280/instanceCount)<<"x2: "<<1280/instanceCount;
 
     ui->label->setPixmap(leftCornerPixmap);
-    ui->label->setFixedSize(1280/instanceCount, 720);
-    resize(1280/instanceCount, 720);
-    move(numerek*1280/instanceCount,0);
+    ui->label->setFixedSize(rozmiar.width()/instanceCount, rozmiar.height());
+    resize(rozmiar.width()/instanceCount, rozmiar.height());
+    move(numerek*rozmiar.width()/instanceCount,0);
     ui->label->update();
 }if(MainWindow::tryb==1){
 
         QPoint currentPosition = pos();
-        int x = currentPosition.x();
-        int y = currentPosition.y();
-        x /= 1.5;
-        y *=3;
-        leftCornerPixmap = pixmap.copy(x,y/4,320,320);
-        resize(320, 320);
+        float x = currentPosition.x();
+        float y = currentPosition.y();
+
+
+//        qDebug()<<screenHeight/rozmiar.height()<<' '<<screenWidth/rozmiar.width();
+        y /= screenHeight/rozmiar.height();
+        x /= screenWidth/rozmiar.width();
+        leftCornerPixmap = pixmap.copy(x,y,this->size().width(),this->size().height());
+//        resize(320, 320);
         ui->label->setPixmap(leftCornerPixmap);
-        ui->label->setFixedSize(320, 320);
+        ui->label->setFixedSize(this->size().width()-25,this->size().height()-25);
+//        ui->label->resize(this->size().width(),this->size().height());
+//        ui->label->adjustSize();
         ui->label->update();
 
     }
@@ -72,13 +75,13 @@ void SecondaryWindow::frameReady(QPixmap pixmap)
 
         poz_x+=ile_x;
         poz_y+=ile_y;
-        if(poz_x>1480){
+        if(poz_x>screenWidth-320){
             ile_x=-1*qAbs(ile_x);
         }
         if(poz_x<0){
             ile_x=qAbs(ile_x);
         }
-        if(poz_y>1280-400){
+        if(poz_y>screenHeight-320){
             ile_y=-1*qAbs(ile_y);
         }
         if(poz_y<0 ){
@@ -90,7 +93,7 @@ void SecondaryWindow::frameReady(QPixmap pixmap)
 
 
         move(poz_x,poz_y);
-        leftCornerPixmap = pixmap.copy((poz_x/1.5),poz_y/2,320,320);
+        leftCornerPixmap = pixmap.copy((poz_x/(screenWidth/rozmiar.width())),poz_y/(screenHeight/rozmiar.height()),320,320);
             resize(320, 320);
             ui->label->setPixmap(leftCornerPixmap);
             ui->label->setFixedSize(320, 320);
@@ -105,7 +108,7 @@ void SecondaryWindow::scatter()
     int screenWidth = QGuiApplication::primaryScreen()->geometry().width();
     int screenHeight = QGuiApplication::primaryScreen()->geometry().height();
 
-    int randX = qrand() % (screenWidth - 320); // Subtract 640 to avoid placing the window out of bounds
-    int randY = qrand() % (screenHeight - 320); // Subtract 480 to avoid placing the window out of bounds
+    int randX = qrand() % (screenWidth - 320);
+    int randY = qrand() % (screenHeight - 320);
     move(randX,randY);
 }

@@ -20,6 +20,8 @@ public:
 signals:
     void scatter();
 private slots:
+    void changeCamera(int index);
+
     void openSecondaryWindow();
 
     void on_pushButton_Stop_clicked();
