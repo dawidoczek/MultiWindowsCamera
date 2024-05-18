@@ -97,10 +97,15 @@ Aplikacja składa się z trzech plików CPP z odpowiednimi plikami nagłówkowym
 
 
 ## Galeria
-
-![screenshot aplikacji](screeny/screen%20(1).png)
-![screenshot aplikacji](screeny/screen%20(2).png)
-![screenshot aplikacji](screeny/screen%20(3).png)
-![screenshot aplikacji](screeny/screen%20(4).png)
-![screenshot aplikacji](screeny/screen%20(5).png)
-![screenshot aplikacji](screeny/screen%20(6).png)
+- ### Wygląd aplikacji
+- ![screenshot aplikacji](screeny/screen%20(1).png)
+- ### Wybór kamery
+- ![screenshot aplikacji](screeny/screen%20(2).png)
+- ### Tryb pierwszy, jedno okienko, kamera z telefonu
+- ![screenshot aplikacji](screeny/screen%20(3).png)
+- ### Tryb pierwszy, wiele okienek, kamera z laptopa
+- ![screenshot aplikacji](screeny/screen%20(4).png)
+- ### Tryb drugi, wiele okienek
+- ![screenshot aplikacji](screeny/screen%20(5).png)
+- ### Tryb trzeci, okienka poruszają sie z losową prędkością
+- ![screenshot aplikacji](screeny/screen%20(6).png)
